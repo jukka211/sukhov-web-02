@@ -1,0 +1,89 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100vw; height: 100vh; overflow-x:hidden; background-color: #000000; color:white;}
+::selection { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }
+::-moz-selection { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }
+@font-face {
+    font-family: "Arial Nova";
+    src: url("ArialNova-Bold.ttf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+body {
+    font-family: "neue-haas-grotesk-display", sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 2px;
+    height: 100vh;
+}
+.header { cursor: pointer;}
+.container { padding-left: 36px;  cursor: pointer;}
+/* Hide all section wrappers by default */
+.container > div { display: none; }
+/* Show wrappers when container is open */
+.container.open > div { display: block; }
+/* Hide *-text blocks by default */
+.container [class$='-text'] { display: none; }
+/* Make titles (and project lines) look clickable */
+.container [class$='-title'],
+.projects-text { cursor: pointer; }
+/* When a section has .open, only show its direct .-text children */
+.container .open > [class$='-text'] { display: block; }
+/* When a project line itself gets .open, show its nested detail */
+.projects-text.open > .projects-text-text { display: block; }
+.awards-text, .contact-text, .projects-text, .projects-text-text, .about-text { padding-left: 30px; }
+.container > div.open { color: #ffffff; }
+.container > div.open > [class$='-title'] { color: rgb(255, 255, 255); }
+.projects-text.open { color: rgb(255, 255, 255);}
+.projects-gallery {
+  display: grid;
+  /* 3 columns of equal width */
+  grid-template-columns: repeat(2, 1fr);
+  /* 3 rows; height will be auto by default, or you can set a fixed value */
+  grid-template-rows: repeat(3, auto);
+  gap: 0.5rem; /* adjust spacing between items */
+}
+
+#oeh .projects-gallery {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, auto);
+}
+
+#p5js .projects-gallery {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, auto);
+}
+#languages .projects-gallery {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, auto);
+}
+
+#displays .projects-gallery {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, auto);
+}
+
+.projects-gallery video,
+.projects-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media only screen and (max-width: 768px) {
+  /* Stack gallery items and constrain size */
+  .projects-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      max-height: 100%;
+  }
+  .projects-gallery img,
+  .projects-gallery video {
+      width: 60vw;
+      max-width: 60vw;
+      height: auto;
+      flex: none;
+  }
+}
