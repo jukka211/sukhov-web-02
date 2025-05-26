@@ -195,50 +195,53 @@
   </div>
     
 <script>
-  $(function(){
-    // A) Init Unveil on all images
-    $('img[data-src]').unveil(200, function(){
-      $(this).on('load', () => this.style.opacity = 1);
-    });
+  // 1) Make sure this runs after your HTML, right before </body>
+  document.addEventListener('DOMContentLoaded', () => {
 
-    // B) Grab all toggles in one go
+    // Utility: swap data-src → src on every img[data-src] inside `el`
+    function unveilSection(el) {
+      el.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+        // optional fade‐in
+        img.style.transition = 'opacity .3s';
+        img.style.opacity = 1;
+      });
+    }
+
+    // All your toggle buttons and their targets
     const toggles = [
-      { btn: '#main-header',      target: '#main-container' },
-      { btn: '#projects-title',   target: '#projects' },
-      { btn: '#about-title',      target: '#about' },
-      { btn: '#contact-title',    target: '#contact' },
-      { btn: '#awards-title',     target: '#awards' },
-      // note: each individual project .projects-text also toggles itself
+      { btn: '#main-header',    target: '#main-container' },
+      { btn: '#projects-title', target: '#projects' },
+      { btn: '#about-title',    target: '#about' },
+      { btn: '#contact-title',  target: '#contact' },
+      { btn: '#awards-title',   target: '#awards' },
     ];
 
-    // Wire up the big sections
+    // Hook up big-section toggles
     toggles.forEach(({btn, target}) => {
-      const $btn    = $(btn);
-      const $target = $(target);
-      $btn.on('click', () => {
-        const isOpen = $target.toggleClass('open').hasClass('open');
-        $btn.find('.toggle-sign').text(isOpen ? '–' : '+');
+      const header = document.querySelector(btn);
+      const section = document.querySelector(target);
+      const sign = header.querySelector('.toggle-sign');
 
-        // if we're unveiling the projects container, fire lookup for all nested imgs
-        if (target === '#projects' && isOpen) {
-          $('img[data-src]', $target).trigger('unveil');
-        }
+      header.addEventListener('click', () => {
+        const isOpen = section.classList.toggle('open');
+        sign.textContent = isOpen ? '–' : '+';
+        if (isOpen) unveilSection(section);
       });
     });
 
-    // And wire up each project entry
-    $('.projects-text').each(function(){
-      const $item = $(this);
-      const $sign = $item.find('.toggle-sign');
-      $item.on('click', () => {
-        const isOpen = $item.toggleClass('open').hasClass('open');
-        $sign.text(isOpen ? '–' : '+');
-        if (isOpen) {
-          $('img[data-src]', $item).trigger('unveil');
-        }
+    // Hook up each individual project entry
+    document.querySelectorAll('.projects-text').forEach(item => {
+      const sign = item.querySelector('.toggle-sign');
+      item.addEventListener('click', () => {
+        const isOpen = item.classList.toggle('open');
+        sign.textContent = isOpen ? '–' : '+';
+        if (isOpen) unveilSection(item);
       });
     });
   });
 </script>
+
 </body>
 </html>
