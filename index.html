@@ -178,8 +178,8 @@
     <div class="projects-text-text" id="future-displays">
       The wooden displays were featured at the 'Future' station during the Radical Times exhibition hosted by @viskom_linz. Visitors were encouraged to participate in discussions and contribute their visions for the future. The displays showcased silkscreen printing on wood. The process involved responding to a question on a scale, and T-shirts were created for the exhibition team.<br>Credits +
       <div class="projects-gallery">
-        <img src="placeholder.jpg" data-src="/project-displays/f1.jpg" alt="Display image 1">
-        <img src="placeholder.jpg" data-src="/project-displays/f2.jpg" alt="Display image 2">
+        <img src="placeholder.jpg" data-src="project-displays/f1.jpg" alt="Display image 1">
+        <img src="placeholder.jpg" data-src="project-displays/f2.jpg" alt="Display image 2">
         <img src="placeholder.jpg" data-src="/project-displays/f3.jpg" alt="Display image 3">
         <img src="placeholder.jpg" data-src="/project-displays/f4.jpg" alt="Display image 4">
         <img src="placeholder.jpg" data-src="/project-displays/f6.jpg" alt="Display image 6">
@@ -196,81 +196,49 @@
     
 <script>
   $(function(){
-    // 1) Initial lazy‐init (so unveil() is available on all imgs)
+    // A) Init Unveil on all images
     $('img[data-src]').unveil(200, function(){
       $(this).on('load', () => this.style.opacity = 1);
     });
 
-    // 2) Wire up your toggles
-    document.querySelectorAll(
-      '.projects-text, #projects-title, .about-title, .contact-title, .awards-title'
-    ).forEach(item => {
-      // figure out which section this title toggles
-      const sectionId = item.id?.replace('-title','')
-                       || item.closest('.projects')?.id;
-      const sectionEl = document.getElementById(sectionId);
-      const sign      = item.querySelector('.toggle-sign');
+    // B) Grab all toggles in one go
+    const toggles = [
+      { btn: '#main-header',      target: '#main-container' },
+      { btn: '#projects-title',   target: '#projects' },
+      { btn: '#about-title',      target: '#about' },
+      { btn: '#contact-title',    target: '#contact' },
+      { btn: '#awards-title',     target: '#awards' },
+      // note: each individual project .projects-text also toggles itself
+    ];
 
-      item.addEventListener('click', () => {
-        const isOpen = sectionEl.classList.toggle('open');
-        sign.textContent = isOpen ? '-' : '+';
+    // Wire up the big sections
+    toggles.forEach(({btn, target}) => {
+      const $btn    = $(btn);
+      const $target = $(target);
+      $btn.on('click', () => {
+        const isOpen = $target.toggleClass('open').hasClass('open');
+        $btn.find('.toggle-sign').text(isOpen ? '–' : '+');
 
+        // if we're unveiling the projects container, fire lookup for all nested imgs
+        if (target === '#projects' && isOpen) {
+          $('img[data-src]', $target).trigger('unveil');
+        }
+      });
+    });
+
+    // And wire up each project entry
+    $('.projects-text').each(function(){
+      const $item = $(this);
+      const $sign = $item.find('.toggle-sign');
+      $item.on('click', () => {
+        const isOpen = $item.toggleClass('open').hasClass('open');
+        $sign.text(isOpen ? '–' : '+');
         if (isOpen) {
-          // Only unveil images inside the now-open section
-          $('img[data-src]', sectionEl)
-            .trigger('unveil');
+          $('img[data-src]', $item).trigger('unveil');
         }
       });
     });
   });
 </script>
-
-
-
-  <script>
-    // Toggle the container via header click
-    const mainHeader = document.getElementById('main-header');
-    const mainContainer = document.getElementById('main-container');
-    const headerSign = mainHeader.querySelector('.toggle-sign');
-    mainHeader.addEventListener('click', () => {
-      const isOpen = mainContainer.classList.toggle('open');
-      headerSign.textContent = isOpen ? '-' : '+';
-    });
-
-    // Toggle individual sections: About, Contact, Awards
-    const sections = [
-      { titleId: 'about-title', sectionId: 'about' },
-      { titleId: 'contact-title', sectionId: 'contact' },
-      { titleId: 'awards-title', sectionId: 'awards' }
-    ];
-
-    sections.forEach(({ titleId, sectionId }) => {
-      const titleEl = document.getElementById(titleId);
-      const sectionEl = document.getElementById(sectionId);
-      const sign = titleEl.querySelector('.toggle-sign');
-      titleEl.addEventListener('click', () => {
-        const isOpen = sectionEl.classList.toggle('open');
-        sign.textContent = isOpen ? '-' : '+';
-      });
-    });
-
-    // Toggle the entire projects list
-    const projects = document.getElementById('projects');
-    const title    = document.getElementById('projects-title');
-    const titleSign = title.querySelector('.toggle-sign');
-    title.addEventListener('click', () => {
-      const isOpen = projects.classList.toggle('open');
-      titleSign.textContent = isOpen ? '-' : '+';
-    });
-
-    // Toggle each individual project entry
-    document.querySelectorAll('.projects-text').forEach(item => {
-      const sign = item.querySelector('.toggle-sign');
-      item.addEventListener('click', () => {
-        const isOpen = item.classList.toggle('open');
-        sign.textContent = isOpen ? '-' : '+';
-      });
-    });
-  </script>
 </body>
 </html>
