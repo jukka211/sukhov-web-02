@@ -82,21 +82,17 @@ function toCanvasCoords(e) {
 }
 
 function shuffleLetters() {
-  // flatten
-  const flat = letters.flat();
-  // shuffle in place
-  for (let i = flat.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [flat[i], flat[j]] = [flat[j], flat[i]];
-  }
-  // write back into 2D array
-  let idx = 0;
+  // cycle every cell’s letter by +1 (A→B→C…→Z→A)
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      letters[i][j] = flat[idx++];
+      let code = letters[i][j].charCodeAt(0);
+      // shift within 65–90 (A–Z):
+      code = (code - 65 + 1) % 26 + 65;
+      letters[i][j] = char(code);
     }
   }
 }
+
 
 function initScales() {
   // initialize grid state
