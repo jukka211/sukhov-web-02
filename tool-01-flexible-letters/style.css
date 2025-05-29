@@ -1,0 +1,97 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+#controls {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;  background: rgba(0,0,0);
+  padding: 0.5rem 1rem;
+ width: 100%;
+  color: #fff;
+  border-top: 0.75px solid grey;
+}
+
+#controls label {
+  font-family: Arial;
+
+  font-size: 14px;
+}
+
+#controls input[type="range"] {
+  -webkit-appearance: none;
+  width: 120px;
+  height: 6px;
+  border-radius: 100px;
+  background:  rgb(82, 82, 82);
+  outline: none;
+}
+#controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* hide button on desktop */
+#shuffleBtn {
+  position: fixed;
+    display: inline-block;
+    padding: 0px 5px;
+    z-index: 999;
+    bottom:10px;
+    right:10px;
+    font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  background: rgb(82, 82, 82);
+  color: #ffffff;
+  
+  cursor: pointer;
+}
+
+
+
+@media screen and (max-width: 640px) {
+  #shuffleBtn {
+    position: fixed;
+    display: inline-block;
+    font-size: 0.9rem;
+    padding: 0px 5px;
+    z-index: 999;
+    bottom:10px;
+    right:10px;
+  
+  }
+  #controls {
+    bottom: 0px; left: 4px;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  #controls label {
+    font-size: 0.9rem;   /* bigger text */
+  }
+
+  #controls input[type="range"] {
+    width: 16vw;         /* span most of the screen */
+    height: 6px;        /* thicker track for touch */
+  }
+  #controls input[type="range"]::-webkit-slider-thumb {
+    width: 12px;         /* larger thumb for easy tapping */
+    height: 12px;
+  }
+  /* And similarly for non-WebKit browsers: */
+  #controls input[type="range"]::-moz-range-thumb {
+    width: 12px;         /* larger thumb for easy tapping */
+    height: 12px;
+  }
+}
