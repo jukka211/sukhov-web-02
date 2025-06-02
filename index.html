@@ -196,53 +196,54 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     //
-    // ====== DRAG‐SCROLL GALLERY ======
+    // ====== DRAG‐SCROLL GALLERIES ======
     //
-    const slider = document.querySelector('.projects-gallery');
-    if (slider) {
-      let isDown = false,
-          startX,
-          scrollLeft,
+    const sliders = document.querySelectorAll('.projects-gallery');
+    if (sliders.length) {
+      sliders.forEach(slider => {
+        let isDown = false,
+            startX = 0,
+            scrollLeft = 0,
+            hasDragged = false;
+
+        slider.addEventListener('mousedown', e => {
+          isDown = true;
           hasDragged = false;
+          slider.classList.add('active');
+          startX = e.pageX - slider.offsetLeft;
+          scrollLeft = slider.scrollLeft;
+          e.preventDefault(); // prevent native image/video dragging
+        });
 
-      slider.addEventListener('mousedown', (e) => {
-        isDown = true;
-        hasDragged = false;
-        slider.classList.add('active');
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-        e.preventDefault(); // prevent default image/video drag
-      });
+        slider.addEventListener('mousemove', e => {
+          if (!isDown) return;
+          const x = e.pageX - slider.offsetLeft;
+          const dx = x - startX;
+          if (Math.abs(dx) > 5) { // only once moved >5px do we treat as a “drag”
+            hasDragged = true;
+            e.preventDefault();
+            slider.scrollLeft = scrollLeft - dx;
+          }
+        });
 
-      slider.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        const x = e.pageX - slider.offsetLeft;
-        const dx = x - startX;
-        if (Math.abs(dx) > 5) { // only once we move >5px we treat it as “drag”
-          hasDragged = true;
-          e.preventDefault();
-          slider.scrollLeft = scrollLeft - dx;
-        }
-      });
+        slider.addEventListener('mouseup', () => {
+          isDown = false;
+          slider.classList.remove('active');
+        });
 
-      slider.addEventListener('mouseup', () => {
-        isDown = false;
-        slider.classList.remove('active');
-      });
+        slider.addEventListener('mouseleave', () => {
+          isDown = false;
+          slider.classList.remove('active');
+        });
 
-      slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.classList.remove('active');
-      });
-
-      slider.addEventListener('click', (e) => {
-        if (hasDragged) {
-          // If the user was dragging, prevent the “click” (no toggle should fire).
-          e.stopPropagation();
-          e.preventDefault();
-        }
-        // Otherwise, if it’s a genuine click (no 5px movement), it will bubble
-        // up if you need it to (e.g. open an image lightbox).
+        slider.addEventListener('click', e => {
+          if (hasDragged) {
+            // If the user was dragging, prevent the spurious “click”
+            e.stopPropagation();
+            e.preventDefault();
+          }
+          // Otherwise, a genuine click (no 5px move) will bubble if you want it to.
+        });
       });
     }
 
@@ -282,7 +283,6 @@
     document.querySelectorAll('.projects-text').forEach(item => {
       const sign = item.querySelector('.toggle-sign');
       if (!sign) return;
-
       item.addEventListener('click', () => {
         const isOpen = item.classList.toggle('open');
         sign.textContent = isOpen ? '–' : '+';
@@ -291,6 +291,7 @@
     });
   });
 </script>
+
 
  <div class="copyrights">© 2025</div>
 </body>
