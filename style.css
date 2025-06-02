@@ -18,6 +18,7 @@ body {
     text-decoration: none;
     padding: 2px;
     height: 100vh;
+    transition: all 0.4s ease-in-out;
     
 }
 .header { cursor: pointer;}
@@ -57,6 +58,7 @@ body {
   overflow: hidden;
   align-items: flex-start;
   justify-content: space-between;
+  transition: all 0.4s ease-in-out;
 }
 
 .projects-gallery img {
@@ -66,7 +68,7 @@ body {
   min-width: 0;
   object-fit: contain;
   transition: flex 0.4s ease-in-out;
-  transform-origin: top left;
+
 }
 
 .projects-gallery video {
@@ -76,7 +78,7 @@ body {
   min-width: 0;
   object-fit: contain;
   transition: flex 0.4s ease-in-out;
-  transform-origin: top left;
+
 }
 .projects-gallery img:hover {
   flex: 0.5 1 0%;           /* same for both methods */
