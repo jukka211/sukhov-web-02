@@ -191,7 +191,46 @@
 
       
   </div>
-    
+      <script>
+    (function() {
+      const slider = document.querySelector('.projects-gallery');
+      let isDown = false,
+          startX,
+          scrollLeft;
+  
+      slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('active');    // for cursor change
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+        e.preventDefault();                 // prevent native dragging of images/videos
+      });
+  
+      slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('active');
+      });
+  
+      slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('active');
+      });
+  
+      slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1;      // scroll speed multiplier
+        slider.scrollLeft = scrollLeft - walk;
+      });
+  
+      // ← This new listener prevents any click inside the gallery
+      // from propagating up to your “.projects-text → toggle” handlers.
+      slider.addEventListener('click', e => {
+        e.stopPropagation();
+      });
+    })();
+  </script>
 <script>
   // 1) Make sure this runs after your HTML, right before </body>
   document.addEventListener('DOMContentLoaded', () => {
