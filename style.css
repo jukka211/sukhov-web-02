@@ -1,5 +1,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { width:100vw; height: 100vh; overflow-x:hidden; background-color: #000000; color:white;}
+html { font-size: 62.5%; } /* makes 1rem = 10px */
+
 ::selection { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }
 ::-moz-selection { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }
 @font-face {
@@ -11,16 +13,19 @@ html, body { width:100vw; height: 100vh; overflow-x:hidden; background-color: #0
 body {
     font-family: "neue-haas-grotesk-display", sans-serif;
     font-weight: 500;
+    font-size: 1.5rem;
+    letter-spacing:0px;
     text-decoration: none;
     padding: 2px;
     height: 100vh;
+    
 }
 .header { cursor: pointer;}
-.container { padding-left: 36px;  cursor: pointer;}
+.container { padding-left: 36px;  cursor: pointer; }
 /* Hide all section wrappers by default */
 .container > div { display: none; }
 /* Show wrappers when container is open */
-.container.open > div { display: block; }
+.container.open > div { display: block; border-radius: 2px; padding-left: 4px;}
 /* Hide *-text blocks by default */
 .container [class$='-text'] { display: none; }
 /* Make titles (and project lines) look clickable */
@@ -29,11 +34,14 @@ body {
 /* When a section has .open, only show its direct .-text children */
 .container .open > [class$='-text'] { display: block; }
 /* When a project line itself gets .open, show its nested detail */
-.projects-text.open > .projects-text-text { display: block; }
-.awards-text, .contact-text, .projects-text, .projects-text-text, .about-text { padding-left: 30px; }
-.container > div.open { color: #ffffff; }
-.container > div.open > [class$='-title'] { color: rgb(255, 255, 255); }
-.projects-text.open { color: rgb(255, 255, 255);}
+.projects-text.open > .projects-text-text { display: block; border-radius: 4px;}
+.awards-text, .contact-text, .projects-text, .projects-text-text, .about-text { margin-left: 40px; }
+.container > div.open { color: #ffffff; background-color: #4D4D4D; }
+.container > div.open > [class$='-title'] { color: #AFAFAF; }
+.projects-text.open { color: #AFAFAF;background-color: #000000; border-radius: 2px; padding: 0px 4px 4px 4px;}
+
+
+
 .projects-gallery {
   display: grid;
   /* 3 columns of equal width */
@@ -43,31 +51,44 @@ body {
   gap: 0.5rem; /* adjust spacing between items */
 }
 
-#oeh .projects-gallery {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, auto);
+.projects-gallery {
+  display: flex;
+  gap: 10px;
+  overflow: hidden;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
-#p5js .projects-gallery {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, auto);
-}
-#languages .projects-gallery {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, auto);
-}
-
-#displays .projects-gallery {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, auto);
-}
-
-.projects-gallery video,
 .projects-gallery img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  /* either Method 1 or 2 here… */
+  flex: 0.07 1 0%;         /* Method 1: smaller default share */
+  /* flex: 1 1 100px; */  /* Method 2: 100px thumbnails */
+  min-width: 0;
+  object-fit: contain;
+  transition: flex 0.4s ease-in-out;
+  transform-origin: top left;
+}
+
+.projects-gallery video {
+  /* either Method 1 or 2 here… */
+  flex: 0.07 1 0%;          /* Method 1: smaller default share */
+  /* flex: 1 1 100px; */  /* Method 2: 100px thumbnails */
+  min-width: 0;
+  object-fit: contain;
+  transition: flex 0.4s ease-in-out;
+  transform-origin: top left;
+}
+.projects-gallery img:hover {
+  flex: 0.5 1 0%;           /* same for both methods */
+}
+.projects-gallery video:hover {
+  flex: 0.5 1 0%;           /* same for both methods */
+}
+
+.copyrights {
+  position: fixed;
+  top: 2px;
+  right: 4px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -75,15 +96,13 @@ body {
   .projects-gallery {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      overflow-y: auto;
-      max-height: 100%;
+     
   }
   .projects-gallery img,
   .projects-gallery video {
-      width: 60vw;
-      max-width: 60vw;
+      
+      max-width: 100%;
       height: auto;
-      flex: none;
+  
   }
 }
