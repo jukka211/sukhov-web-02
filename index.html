@@ -191,62 +191,73 @@
 
       
   </div>
-      <script>
-    (function() {
-      const slider = document.querySelector('.projects-gallery');
+     <!-- … your HTML above … -->
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    //
+    // ====== DRAG‐SCROLL GALLERY ======
+    //
+    const slider = document.querySelector('.projects-gallery');
+    if (slider) {
       let isDown = false,
           startX,
-          scrollLeft;
-  
+          scrollLeft,
+          hasDragged = false;
+
       slider.addEventListener('mousedown', (e) => {
         isDown = true;
-        slider.classList.add('active');    // for cursor change
+        hasDragged = false;
+        slider.classList.add('active');
         startX = e.pageX - slider.offsetLeft;
         scrollLeft = slider.scrollLeft;
-        e.preventDefault();                 // prevent native dragging of images/videos
+        e.preventDefault(); // prevent default image/video drag
       });
-  
-      slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.classList.remove('active');
+
+      slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        const x = e.pageX - slider.offsetLeft;
+        const dx = x - startX;
+        if (Math.abs(dx) > 5) { // only once we move >5px we treat it as “drag”
+          hasDragged = true;
+          e.preventDefault();
+          slider.scrollLeft = scrollLeft - dx;
+        }
       });
-  
+
       slider.addEventListener('mouseup', () => {
         isDown = false;
         slider.classList.remove('active');
       });
-  
-      slider.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 1;      // scroll speed multiplier
-        slider.scrollLeft = scrollLeft - walk;
-      });
-  
-      // ← This new listener prevents any click inside the gallery
-      // from propagating up to your “.projects-text → toggle” handlers.
-      slider.addEventListener('click', e => {
-        e.stopPropagation();
-      });
-    })();
-  </script>
-<script>
-  // 1) Make sure this runs after your HTML, right before </body>
-  document.addEventListener('DOMContentLoaded', () => {
 
-    // Utility: swap data-src → src on every img[data-src] inside `el`
+      slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('active');
+      });
+
+      slider.addEventListener('click', (e) => {
+        if (hasDragged) {
+          // If the user was dragging, prevent the “click” (no toggle should fire).
+          e.stopPropagation();
+          e.preventDefault();
+        }
+        // Otherwise, if it’s a genuine click (no 5px movement), it will bubble
+        // up if you need it to (e.g. open an image lightbox).
+      });
+    }
+
+    //
+    // ====== TOGGLE SECTIONS + LAZY‐LOAD IMAGES ======
+    //
     function unveilSection(el) {
       el.querySelectorAll('img[data-src]').forEach(img => {
         img.src = img.dataset.src;
         img.removeAttribute('data-src');
-        // optional fade‐in
-   
+        // Optionally fade in:
         img.style.opacity = 1;
       });
     }
 
-    // All your toggle buttons and their targets
     const toggles = [
       { btn: '#main-header',    target: '#main-container' },
       { btn: '#projects-title', target: '#projects' },
@@ -255,12 +266,12 @@
       { btn: '#awards-title',   target: '#awards' },
     ];
 
-    // Hook up big-section toggles
-    toggles.forEach(({btn, target}) => {
+    toggles.forEach(({ btn, target }) => {
       const header = document.querySelector(btn);
       const section = document.querySelector(target);
-      const sign = header.querySelector('.toggle-sign');
+      if (!header || !section) return;
 
+      const sign = header.querySelector('.toggle-sign');
       header.addEventListener('click', () => {
         const isOpen = section.classList.toggle('open');
         sign.textContent = isOpen ? '–' : '+';
@@ -268,9 +279,10 @@
       });
     });
 
-    // Hook up each individual project entry
     document.querySelectorAll('.projects-text').forEach(item => {
       const sign = item.querySelector('.toggle-sign');
+      if (!sign) return;
+
       item.addEventListener('click', () => {
         const isOpen = item.classList.toggle('open');
         sign.textContent = isOpen ? '–' : '+';
@@ -279,6 +291,7 @@
     });
   });
 </script>
+
  <div class="copyrights">© 2025</div>
 </body>
 </html>
