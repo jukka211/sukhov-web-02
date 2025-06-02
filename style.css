@@ -42,56 +42,42 @@ body {
 .projects-text.open { color: #AFAFAF;background-color: #000000; border-radius: 2px; padding: 0px 4px 4px 4px;}
 
 
+/* 1. Remove any transform/scale rules you may have applied elsewhere. */
+/*    If you had something like .projects-gallery img { transform: scale(…); } or JS that did scaling, remove it. */
 
-.projects-gallery {
-  display: grid;
-  /* 3 columns of equal width */
-  grid-template-columns: repeat(2, 1fr);
-  /* 3 rows; height will be auto by default, or you can set a fixed value */
-  grid-template-rows: repeat(3, auto);
-  gap: 0.5rem; /* adjust spacing between items */
-}
-
+/* 2. Force the gallery to be a single horizontal row and allow scrolling */
 .projects-gallery {
   display: flex;
-  gap: 10px;
-  overflow: hidden;
-  align-items: flex-start;
-  justify-content: space-between;
-  transition: all 0.4s ease-in-out;
+  flex-direction: row;
+  align-items: flex-start; /* ensures top alignment—adjust if needed */
+  gap: 1rem;               /* optional spacing between items */
+  overflow-x: auto;        /* allow horizontal scrolling */
+  white-space: nowrap;     /* prevent wrapping */
+  padding-bottom: 0.5rem;  /* give a little breathing room under items */
 }
 
-.projects-gallery img {
-  /* either Method 1 or 2 here… */
-  flex: 0.07 1 0%;         /* Method 1: smaller default share */
-  /* flex: 1 1 100px; */  /* Method 2: 100px thumbnails */
-  min-width: 0;
-  object-fit: contain;
-  transition: flex 0.4s ease-in-out;
-      max-height: 70vh;
-  width: auto;
-  height: auto;
-
-}
-
+/* 3. Make sure each item sits inline and does not shrink below its intrinsic size */
+.projects-gallery img,
 .projects-gallery video {
-  /* either Method 1 or 2 here… */
-  flex: 0.07 1 0%;          /* Method 1: smaller default share */
-  /* flex: 1 1 100px; */  /* Method 2: 100px thumbnails */
-  min-width: 0;
-  object-fit: contain;
-  transition: flex 0.4s ease-in-out;
-      max-height: 70vh;
-  width: auto;
-  height: auto;
+  flex: 0 0 auto;      /* do not grow or shrink; keep natural dimensions */
+  max-height: 40vh;   /* or whatever maximum height you prefer */
+  object-fit: cover;   /* crop/fill if needed */
+}
 
+/* 4. Optional: hide scroll‐bar for a cleaner look (Webkit) */
+.projects-gallery::-webkit-scrollbar {
+  height: 6px;
 }
-.projects-gallery img:hover {
-  flex: 0.5 1 0%;           /* same for both methods */
+.projects-gallery::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
 }
-.projects-gallery video:hover {
-  flex: 0.5 1 0%;           /* same for both methods */
+.projects-gallery::-webkit-scrollbar-track {
+  background-color: transparent;
 }
+
+/* 5. If you had any JS that applied “scale” or “zoom” on hover/scroll, remove those listeners or CSS classes. */
+
 
 .copyrights {
   position: fixed;
