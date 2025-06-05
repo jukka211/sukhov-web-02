@@ -18,7 +18,7 @@ let colSlider, rowSlider, colValLabel, rowValLabel;
 function preload() {
   // Load a TTF/OTF so that myFont.font is an opentype.js Font
   // Put your font under assets/, e.g. assets/Helvetica.ttf
-  myFont = loadFont('Arial Bold.ttf');
+  myFont = loadFont('HelveticaNeueMedium.otf');
 }
 
 function setup() {
