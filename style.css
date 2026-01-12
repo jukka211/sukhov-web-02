@@ -4,15 +4,10 @@ html { font-size: 62.5%; } /* makes 1rem = 10px */
 
 ::selection { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }
 ::-moz-selection { background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); }
-@font-face {
-    font-family: "Arial Nova";
-    src: url("ArialNova-Bold.ttf") format("truetype");
-    font-weight: bold;
-    font-style: normal;
-}
+
 body {
     font-family: "neue-haas-grotesk-display", sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 1.5rem;
     letter-spacing:0px;
     text-decoration: none;
@@ -31,7 +26,7 @@ a {
 /* Hide all section wrappers by default */
 .container > div { display: none; }
 /* Show wrappers when container is open */
-.container.open > div { display: block; border-radius: 2px; padding-left: 4px;}
+.container.open > div { display: block; border-radius: 0px; padding-left: 4px;}
 /* Hide *-text blocks by default */
 .container [class$='-text'] { display: none; }
 /* Make titles (and project lines) look clickable */
@@ -40,11 +35,11 @@ a {
 /* When a section has .open, only show its direct .-text children */
 .container .open > [class$='-text'] { display: block; }
 /* When a project line itself gets .open, show its nested detail */
-.projects-text.open > .projects-text-text { display: block; border-radius: 4px;}
+.projects-text.open > .projects-text-text { display: block; border-radius: 0px; }
 .awards-text, .contact-text, .projects-text, .projects-text-text, .about-text { margin-left: 40px; }
-.container > div.open { color: #ffffff; background-color: #2c2c2c; }
+.container > div.open { color: #AFAFAF; background-color: #000000; border-top: 0.75px solid #AFAFAF; border-left: 0.75px solid #AFAFAF;}
 .container > div.open > [class$='-title'] { color: #AFAFAF; }
-.projects-text.open { color: #AFAFAF;background-color: #000000; border-radius: 2px; padding: 0px 4px 4px 4px;}
+.projects-text.open { color: #ffffff;background-color: #000000; border-radius: 0px; padding: 0px 4px 4px 4px; border-top: 0.75px solid #AFAFAF; border-left: 0.75px solid #AFAFAF;}
 
 
 /* 1. Remove any transform/scale rules you may have applied elsewhere. */
@@ -65,7 +60,7 @@ a {
 .projects-gallery img,
 .projects-gallery video {
   flex: 0 0 auto;      /* do not grow or shrink; keep natural dimensions */
-  max-height: 40vh;   /* or whatever maximum height you prefer */
+  max-height: 80vh;   /* or whatever maximum height you prefer */
   object-fit: cover;   /* crop/fill if needed */
 }
 
