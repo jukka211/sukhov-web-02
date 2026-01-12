@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool: Over Flexible System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="https://use.typekit.net/arl3tho.css">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <button class="toggle-panel-btn" id="toggleBtn"></button>
+        <aside class="side-panel" id="sidePanel">
+          
+            <!-- 1) Canvas Size -->
+            <section class="panel-group">
+              <div class="group-title">Canvas Size</div>
+          
+              <div class="control-group">
+                <select id="canvasSizeModeSelect" class="select-input">
+                  <option value="auto" selected>Auto</option>
+                  <option value="16:9">16:9 (Landscape)</option>
+                  <option value="9:16">9:16 (Portrait)</option>
+                  <option value="4:5">4:5 (Portrait)</option>
+                  <option value="1:1">1:1 </option>
+                  <option value="custom">Custom Size</option>
+                </select>
+              </div>
+          
+              <div id="customSizeInputs" style="display: none;">
+                <div class="control-group">
+                  <label class="control-label">Width (px):</label>
+                  <input type="number" id="customWidthInput" class="number-input" value="1920" min="100" max="7680">
+                </div>
+                <div class="control-group">
+                  <label class="control-label">Height (px):</label>
+                  <input type="number" id="customHeightInput" class="number-input" value="1080" min="100" max="4320">
+                </div>
+              </div>
+            </section>
+          
+            <!-- 2) Text Input Mode -->
+            <section class="panel-group">
+              <div class="group-title">Text Input </div>
+              <div class="section-title">Mode</div>
+              <div class="control-group">
+                <select id="textModeSelect" class="select-input">
+                  <option value="lists" selected>Words</option>
+                  <option value="symbol">Letters</option>
+                </select>
+              </div>
+          
+              <!-- Word list controls -->
+              <div id="wordListControls">
+                <div class="section-title">Line 1: Prefix</div>
+                <div class="control-group">
+                  <select id="prefixSelect" class="select-input">
+                    <option value="over" selected>over</option>
+                    <option value="un">un</option>
+                    <option value="in">in</option>
+                    <option value="dis">dis</option>
+                    <option value="de">de</option>
+                    <option value="mis">mis</option>
+                    <option value="re">re</option>
+                    <option value="under">under</option>
+                    <option value="hyper">hyper</option>
+                    <option value="hypo">hypo</option>
+                    <option value="sub">sub</option>
+                    <option value="super">super</option>
+                    <option value="inter">inter</option>
+                    <option value="intra">intra</option>
+                    <option value="pre">pre</option>
+                    <option value="post">post</option>
+                    <option value="trans">trans</option>
+                    <option value="tele">tele</option>
+                    <option value="uni">uni</option>
+                    <option value="bi">bi</option>
+                    <option value="multi">multi</option>
+                    <option value="co">co</option>
+                    <option value="pro">pro</option>
+                    <option value="auto">auto</option>
+                    <option value="bio">bio</option>
+                    <option value="geo">geo</option>
+                    <option value="pseudo">pseudo</option>
+                  </select>
+                </div>
+          
+
+          
+                <div class="section-title">Line 3: Word</div>
+                <div class="control-group">
+                  <select id="line3Select" class="select-input">
+                    <option value="Systems" selected>Systems</option>
+                    <option value="Capitalism">Capitalism</option>
+                    <option value="Commons">Commons</option>
+                    <option value="Communication">Communication</option>
+                    <option value="Contracts">Contracts</option>
+                    <option value="Creativity">Creativity</option>
+                    <option value="Culture">Culture</option>
+                    <option value="Data">Data</option>
+                    <option value="Democracy">Democracy</option>
+                    <option value="Density">Density</option>
+                    <option value="Design">Design</option>
+                    <option value="Development">Development</option>
+                    <option value="Dynamics">Dynamics</option>
+                    <option value="Emotional">Emotional</option>
+                    <option value="Employee">Employee</option>
+                    <option value="Employer">Employer</option>
+                    <option value="Employment">Employment</option>
+                    <option value="Energy">Energy</option>
+                    <option value="Enforcement">Enforcement</option>
+                    <option value="Ethics">Ethics</option>
+                    <option value="Family">Family</option>
+                    <option value="Flexibility">Flexibility</option>
+                    <option value="Freedom">Freedom</option>
+                    <option value="Governance">Governance</option>
+                    <option value="Growth">Growth</option>
+                    <option value="Identity">Identity</option>
+                    <option value="Insurance">Insurance</option>
+                    <option value="Job">Job</option>
+                    <option value="Law">Law</option>
+                    <option value="Love">Love</option>
+                    <option value="Management">Management</option>
+                    <option value="Markets">Markets</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Meaning">Meaning</option>
+                    <option value="Networks">Networks</option>
+                    <option value="Outcomes">Outcomes</option>
+                    <option value="Patterns">Patterns</option>
+                    <option value="People">People</option>
+                    <option value="Person">Person</option>
+                    <option value="Policies">Policies</option>
+                    <option value="Privacy">Privacy</option>
+                    <option value="Relationships">Relationships</option>
+                    <option value="Resources">Resources</option>
+                    <option value="Roles">Roles</option>
+                    <option value="Security">Security</option>
+                    <option value="Society">Society</option>
+                    <option value="Supply">Supply</option>
+                    <option value="Sustainability">Sustainability</option>
+                    <option value="Team">Team</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Transparency">Transparency</option>
+                    <option value="Trust">Trust</option>
+                    <option value="User">User</option>
+                    <option value="Values">Values</option>
+                    <option value="War">War</option>
+                  </select>
+                </div>
+              </div>
+          
+<!-- Symbol controls -->
+<div id="symbolControls" style="display:none;">
+  <div class="section-title">Symbols (max 1 each)</div>
+
+  <div class="control-group" style="display:flex; gap:10px; align-items:center;">
+    <input id="symbolInput1" class="select-input" type="text" value="A" placeholder="A" />
+  </div>
+
+  <div class="control-group" style="display:flex; gap:10px; align-items:center;">
+    <input id="symbolInput2" class="select-input" type="text" value="B" placeholder="B" />
+  </div>
+
+  <div class="control-group" style="display:flex; gap:10px; align-items:center;">
+    <input id="symbolInput3" class="select-input" type="text" value="C" placeholder="C" />
+  </div>
+</div>
+
+            </section>
+          
+            <!-- 3) Grid (Auto Row Count) -->
+            <section class="panel-group">
+              <div class="group-title">Grid </div>
+        
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Columns</span>
+                  <span class="range-value" id="colValue">3</span>
+                </div>
+                <input type="range" id="colSlider" min="1" max="75" value="3">
+              </div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Rows</span>
+                  <span class="range-value" id="rowValue">1</span>
+                </div>
+                <input type="range" id="rowSlider" min="1" max="50" value="1">
+              </div>
+          
+          
+          
+              <div class="control-group">
+                <div class="section-title">Manual Row Count</div>
+                <div class="control-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="alternatingRowsCheckbox">
+                    <span>Alternating Row Counts</span>
+                  </label>
+                </div>
+                <div class="range-header">
+                  <span class="control-label">Rows Col 1</span>
+                  <span class="range-value" id="rowsCol1Value">20</span>
+                </div>
+                <input type="range" id="rowsCol1Slider" min="1" max="50" value="20">
+              </div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Rows Col 2</span>
+                  <span class="range-value" id="rowsCol2Value">10</span>
+                </div>
+                <input type="range" id="rowsCol2Slider" min="1" max="50" value="10">
+              </div>
+          
+              <div class="section-title">Auto Row Count</div>
+          
+              <div class="control-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="autoRowCountCheckbox">
+                  <span>Enable Auto Row Count</span>
+                </label>
+              </div>
+          
+              <div class="control-group">
+                <span class="control-label">Pattern</span>
+                <select id="autoRowPatternSelect" class="select-input">
+                  <option value="radial" selected>Radial</option>
+                  <option value="radialInverse">Radial Inverse</option>
+                  <option value="animatedRadial">Animated Radial</option>
+                </select>
+              </div>
+              
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Min Rows</span>
+                  <span class="range-value" id="autoRowMinValue">3</span>
+                </div>
+                <input type="range" id="autoRowMinSlider" min="1" max="5" value="3">
+              </div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Max Rows</span>
+                  <span class="range-value" id="autoRowMaxValue">3</span>
+                </div>
+                <input type="range" id="autoRowMaxSlider" min="1" max="20" value="3">
+              </div>
+       
+            </section>
+          
+            <!-- 4) Color Mode (Fixed Mode Colors, Canvas) -->
+            <section class="panel-group">
+              <div class="group-title">Color Mode</div>
+          
+              <div class="section-title">Color Mode</div>
+          
+              <div class="control-group">
+                <span class="control-label">Mode</span>
+                <select id="colorModeSelect" class="select-input">
+                  <option value="random" selected>Colorful</option>
+                  <option value="bwRandom">Black & White</option>
+                  <option value="fixed">Fixed Colors</option>
+                </select>
+              </div>
+          
+              <div class="control-group">
+                <span class="control-label">Text Visibility</span>
+                <select id="textVisibilitySelect" class="select-input">
+                  <option value="contrast" selected>Contrast</option>
+                  <option value="hidden">Hidden</option>
+                  <option value="partial">Partial</option>
+                </select>
+              </div>
+              
+          
+              <div class="control-group">
+                <span class="control-label">Color Pattern</span>
+                <select id="patternSelect" class="select-input">
+                  <option value="radial" selected>Radial</option>
+                  <option value="angle">Angle / Sectors</option>
+                  <option value="checker">Checker</option>
+                  <option value="ellipticalRadial">Elliptical Radial</option>
+                  <option value="cross">Cross</option>
+                  <option value="squareRings">Square Rings</option>
+                </select>
+              </div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Scale Factor</span>
+                  <span class="range-value" id="scaleFactorValue">2.0</span>
+                </div>
+                <input type="range" id="scaleFactorSlider" min="0.5" max="5" step="0.1" value="2">
+              </div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Color Bands</span>
+                  <span class="range-value" id="bandsValue">6</span>
+                </div>
+                <input type="range" id="bandsSlider" min="2" max="20" value="6">
+              </div>
+          
+              <div class="control-group">
+                <span class="control-label">Color Palette</span>
+                <div class="palette-grid" id="paletteGrid"></div>
+              </div>
+          
+              <div id="fixedModeColorsWrap" style="display:none;">
+                <div class="section-title">Fixed Mode Colors</div>
+              
+                <div class="control-group">
+                  <span class="control-label">Background Color</span>
+                  <div class="control-row">
+                    <div class="color-input-wrapper">
+                      <input type="color" id="fixedBgColor" class="color-input" value="#000000">
+                    </div>
+                    <span class="color-value" id="fixedBgColorValue">#000000</span>
+                  </div>
+                </div>
+              
+                <div class="control-group">
+                  <span class="control-label">Font Color</span>
+                  <div class="control-row">
+                    <div class="color-input-wrapper">
+                      <input type="color" id="fixedFontColor" class="color-input" value="#FFFFFF">
+                    </div>
+                    <span class="color-value" id="fixedFontColorValue">#FFFFFF</span>
+                  </div>
+                </div>
+              </div>
+              
+          
+  
+            </section>
+          
+            <!-- 5) Column Stretch (Horizontal and Vertical, Inner Line Stretch) -->
+            <section class="panel-group">
+              <div class="group-title">Column & Row Stretch</div>
+          
+              <div class="section-title">Column Stretch (Horizontal)</div>
+          
+              <div class="control-group">
+                <span class="control-label">Mode</span>
+                <select id="colStretchMode" class="select-input">
+                  <option value="animated" selected>Animated</option>
+                  <option value="manual">Manual</option>
+                </select>
+              </div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Manual Value</span>
+                  <span class="range-value" id="colStretchValue">0.00</span>
+                </div>
+                <input type="range" id="colStretchSlider" min="-2" max="2" step="0.01" value="0">
+              </div>
+          
+
+          
+              <div class="section-title">Row Stretch (Vertical)</div>
+          
+              <div class="control-group">
+                <span class="control-label">Mode</span>
+                <select id="rowStretchMode" class="select-input">
+                  <option value="animated" selected>Animated</option>
+                  <option value="manual">Manual</option>
+                </select>
+              </div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Manual Value</span>
+                  <span class="range-value" id="rowStretchValue">2.00</span>
+                </div>
+                <input type="range" id="rowStretchSlider" min="-4" max="4" step="0.01" value="2">
+              </div>
+          
+          
+          
+          
+              <div class="section-title">Inner Line Stretch</div>
+
+              
+              <div class="control-group">
+                <span class="control-label">Mode</span>
+                <select id="innerStretchMode" class="select-input">
+                  <option value="animated">Animated</option>
+                  <option value="manual" selected>Manual</option>
+                </select>
+              </div>
+              
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Manual Phase</span>
+                  <span class="range-value" id="innerStretchValue">0.00</span>
+                </div>
+                <input type="range" id="innerStretchSlider" min="0" max="5" step="0.01" value="0">
+              </div>
+            </section>
+          
+            <!-- 6) Export Frames (export buttons) -->
+            <section class="panel-group">
+              <div class="group-title">Export Frames</div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Frame Rate (FPS)</span>
+                  <span class="range-value" id="exportFpsValue">30</span>
+                </div>
+                <input type="range" id="exportFpsSlider" min="1" max="60" value="30">
+              </div>
+          
+              <div class="control-group">
+                <div class="range-header">
+                  <span class="control-label">Duration (seconds)</span>
+                  <span class="range-value" id="exportDurValue">5</span>
+                </div>
+                <input type="range" id="exportDurSlider" min="1" max="60" value="5">
+              </div>
+              <div class="control-group" style="margin-top: 40px;">
+              <button class="save-btn" id="exportFramesBtn">Export Frames</button>
+              <button class="save-btn" id="saveBtn">Save as PNG</button>
+            </div>
+            </section>
+          </aside>
+          
+
+        <main class="canvas-container">
+            <div id="canvas-wrapper"></div>
+        </main>
+    </div>
+<!-- Mobile overlay -->
+<div class="mobile-only-overlay" role="dialog" aria-label="Desktop only notice">
+  <div class="mobile-only-text">Open on desktop to continue.</div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>

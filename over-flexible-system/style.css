@@ -1,0 +1,476 @@
+/* style.css (font sizes via :root vars) */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-dark: #000000;
+  --panel-bg: #000000;
+  --border-color: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: #9a9a9a;
+  --accent: #ffffff;
+
+  /* Font size controls */
+  --body-text-size: 0.8rem;
+  --group-title-size: 1.3rem;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  height: 100%;
+  margin: 0;
+  display: flex;
+  overflow: hidden;
+
+  /* body text size */
+  font-size: var(--body-text-size);
+  font-family: "neue-haas-grotesk-display", sans-serif;
+font-weight: 600;
+font-style: normal;
+}
+
+.app-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Canvas layout */
+.canvas-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+/* Center the wrapper content */
+#canvas-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Remove inline-canvas spacing quirks */
+#canvas-wrapper canvas {
+  display: block;
+  border-radius: 8px;
+}
+
+/* Side Panel - Overlay */
+.side-panel {
+  position: fixed;
+  top:28px;
+  left: 0px;
+  width: 20vw;
+  border: 1px solid white;
+  height: auto;                          /* <- auto height */
+  max-height: calc(100vh - 8px);         /* <- prevents going off-screen */
+  overflow-y: auto;                      /* <- scroll only if too tall */
+
+  background: black;
+
+  padding:0px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+
+  z-index: 1000;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.side-panel--right {
+  left: auto;
+  right: 4px;
+}
+
+
+
+
+/* Group title */
+.group-title {
+  font-family: "neue-haas-grotesk-display", sans-serif;
+  margin-bottom: 0;
+  font-size: var(--group-title-size);
+  text-transform: uppercase;
+}
+
+/* Optional: tighten section titles inside groups */
+.panel-group .section-title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* If you still have .divider elements in other places, hide them */
+.divider {
+  display: none;
+}
+
+.side-panel.collapsed {
+  display: none;
+  pointer-events: none;
+}
+
+.panel-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.panel-title {
+  letter-spacing: -0.5px;
+  color: var(--accent);
+}
+
+.panel-subtitle {
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-label {
+  color: var(--text-secondary);
+  margin-top: 10px;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Color Inputs */
+.color-input-wrapper {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.color-input-wrapper:hover {
+  border-color: var(--accent);
+}
+
+.color-input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-input::-webkit-color-swatch {
+  border: none;
+}
+
+.color-value {
+  color: var(--text-primary);
+}
+
+/* Range Slider */
+.range-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.range-value {
+  color: var(--accent);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: rgb(84, 84, 84);
+
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Save Button */
+.save-btn {
+  background: black;
+  color: white;
+  border: 1px solid white;
+  padding: 8px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 0px;
+  width: 100%;
+}
+
+.save-btn:hover {
+background: #ffffff;
+color: rgb(0, 0, 0);
+border: 0.5px solid white;
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
+
+/* Toggle Panel Button - Floating */
+.toggle-panel-btn {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  padding: 6px;
+  background: rgb(0, 0, 0);
+  border: 1px solid white;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.toggle-panel-btn:hover {
+background-color: #000000;
+color: white;
+border: 1px solid white;
+}
+
+.toggle-panel-btn::after {
+  content: 'Close';
+}
+
+.toggle-panel-btn.active::after {
+  content: 'Controls';
+}
+
+/* Hide button inside panel */
+.side-panel .toggle-panel-btn {
+  display: none;
+}
+
+/* Canvas Container (fullscreen) */
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-dark);
+  overflow: hidden;
+}
+
+#canvas-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+#canvas-wrapper canvas {
+  display: block;
+  outline: 1px solid rgb(140, 140, 140);
+  outline-offset: 1px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 0;
+}
+
+/* Palette */
+.palette-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.palette-color {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 2px solid var(--border-color);
+}
+
+.palette-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.preset-btn {
+  padding: 6px 10px;
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.preset-btn.active {
+  background: var(--accent);
+  color: var(--bg-dark);
+  border-color: var(--accent);
+}
+
+.draw-hint {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 2px solid var(--accent);
+}
+
+/* Section Titles */
+.section-title {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-color);
+
+}
+
+/* Select Input */
+.select-input {
+  width: 100%;
+  padding: 8px 6px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.2s;
+  text-transform: uppercase;
+}
+
+.select-input:hover {
+  border-color: var(--accent);
+}
+
+.select-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.select-input option {
+  background: var(--panel-bg);
+  color: var(--text-primary);
+}
+
+
+
+
+/* Accordion */
+.panel-group {
+  display: flex;
+  flex-direction: column;
+  background: rgb(0, 0, 0);
+  padding: 2px 5px 2px 5px;
+  border-top: 1px solid white;
+}
+.panel-group.is-open {
+  padding-bottom: 10px;
+}
+/* clickable header */
+.panel-group .group-title {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+/* plus/minus icon */
+.panel-group .group-title::after {
+  content: "+";
+  opacity: 0.8;
+}
+
+.panel-group.is-open .group-title::after {
+  content: "–";
+}
+
+/* hidden by default */
+.panel-group .panel-content {
+  overflow: hidden;
+  max-height: 0px;
+  transition: max-height 0.25s ease;
+}
+.panel-group.is-open .panel-content {
+  padding-bottom: 10px;
+}
+
+
+/* Hidden by default (desktop) */
+.mobile-only-overlay {
+  display: none;
+}
+
+/* Show on mobile (adjust breakpoint as you like) */
+@media (max-width: 768px) {
+  .mobile-only-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;                 /* full screen */
+    background: #000;         /* black screen */
+    z-index: 999999;
+  }
+
+  .mobile-only-text {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #fff;    
+    text-transform: uppercase;
+    font-size: 0.8rem;          /* white text */
+  }
+
+  /* Optional: prevent scrolling behind the overlay if needed */
+  body {
+    overflow: hidden;
+  }
+}
